@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>O quão garantista você é?</title>
+  <meta name="description" content="Quiz recreativo de Direito Penal e Processo Penal: descubra de que lado você está quando o assunto é o poder de punir do Estado.">
+  <meta name="theme-color" content="#0e0e0e">
+  <meta property="og:title" content="O quão garantista você é?">
+  <meta property="og:description" content="Descubra de que lado você está quando o assunto é o poder de punir do Estado.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-screen="intro">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="scale-deco" viewBox="0 0 400 640">
+      <g fill="currentColor" stroke="currentColor" stroke-linecap="round">
+        <path d="M130 640q15-28 48-34h44q33 6 48 34z" stroke="none"/>
+        <path d="M191 606 194 190h12l3 416z" stroke="none"/>
+        <ellipse cx="200" cy="500" rx="17" ry="9" stroke="none"/><ellipse cx="200" cy="440" rx="13" ry="7" stroke="none"/>
+        <path d="M200 20q14 32 11 54h-22q-3-22 11-54z" stroke="none"/>
+        <path d="M70 196Q135 166 200 178Q265 166 330 196" fill="none" stroke-width="9"/>
+        <circle cx="200" cy="180" r="15" stroke="none"/><circle cx="70" cy="196" r="11" stroke="none"/><circle cx="330" cy="196" r="11" stroke="none"/>
+        <g fill="none" stroke-width="3.5">
+          <path d="M70 196 6 392M70 196 134 392M70 196V392M330 196 266 392M330 196 394 392M330 196V392"/>
+        </g>
+        <path d="M2 388Q70 436 138 388Q70 400 2 388zM262 388Q330 436 398 388Q330 400 262 388z" stroke="none"/>
+      </g>
+    </symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="#" data-action="home" aria-label="Início">
+      <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 10v38M16 20c10 4 22 4 32 0M21 22l-7 15h14zM43 22l-7 15h14zM20 52h24"/></g></svg>
+      <span>Quão garantista?</span>
+    </a>
+    <span class="topbar-note">Direito Penal &amp; Processo Penal</span>
+  </header>
+
+  <main>
+    <!-- INTRO -->
+    <section id="screen-intro" class="screen screen-intro" aria-labelledby="intro-title">
+      <div class="intro-inner">
+        <p class="kicker">Quiz jurídico · 15 dilemas</p>
+        <h1 id="intro-title">O QUÃO<br>GARANTISTA<br>VOCÊ É?</h1>
+        <p class="lead">Descubra de que lado você está quando o assunto é o poder de punir do Estado.</p>
+        <p class="body-text">Entre a liberdade e a punição, entre as garantias individuais e a segurança pública: suas respostas dizem muito sobre sua visão do Direito Penal.</p>
+        <button class="btn btn-primary btn-lg" id="btn-start" type="button">DESCOBRIR MEU PERFIL</button>
+        <p class="aside">Não vale consultar o Vade Mecum. Aqui queremos saber o que você realmente pensa.</p>
+        <p class="fine">Quiz recreativo de posicionamento jurídico. Não mede conhecimento nem indica quem está “certo”; garantismo não é defesa de impunidade, e punitivismo não é apenas aplicar a lei penal.</p>
+      </div>
+      <svg class="intro-scale" aria-hidden="true" viewBox="0 0 400 640"><use href="#scale-deco"/></svg>
+    </section>
+
+    <!-- PERGUNTAS -->
+    <section id="screen-quiz" class="screen screen-quiz" aria-labelledby="q-text" hidden>
+      <div class="quiz-wrap">
+        <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="15" aria-valuenow="1" id="progress">
+          <div class="progress-meta"><span id="progress-label">Pergunta 1 de 15</span><span id="q-tema" class="tema"></span></div>
+          <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+        </div>
+        <article class="question" id="question">
+          <h2 id="q-text" class="q-text" tabindex="-1"></h2>
+          <form id="q-form" class="options" role="radiogroup" aria-labelledby="q-text" autocomplete="off"></form>
+        </article>
+        <div class="quiz-nav">
+          <button class="btn btn-ghost" id="btn-prev" type="button">← Voltar</button>
+          <button class="btn btn-primary" id="btn-next" type="button" disabled>Próxima →</button>
+        </div>
+        <p class="hint" id="hint">Escolha uma alternativa para continuar. Dica: teclas 1 a 4 e Enter.</p>
+      </div>
+    </section>
+
+    <!-- RESULTADO -->
+    <section id="screen-result" class="screen screen-result" aria-labelledby="r-nome" hidden>
+      <div class="result-wrap">
+        <div class="result-card-col">
+          <canvas id="card-canvas" width="1080" height="1350" role="img" aria-label="Cartão de resultado"></canvas>
+          <div class="actions">
+            <button class="btn btn-primary" id="btn-share" type="button">Compartilhar resultado</button>
+            <button class="btn btn-outline" id="btn-download" type="button">Baixar imagem</button>
+            <button class="btn btn-ghost" id="btn-restart" type="button">Refazer o quiz</button>
+          </div>
+          <p class="status" id="share-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="result-text">
+          <p class="kicker">Seu resultado</p>
+          <h2 id="r-nome" class="r-nome"></h2>
+          <p class="r-score">Pontuação média: <strong id="r-media"></strong> / 4</p>
+          <div class="meter" aria-hidden="true"><div class="meter-line"></div><div class="meter-dot" id="meter-dot"></div>
+            <div class="meter-labels"><span>Garantista</span><span>Punitivista</span></div></div>
+          <p class="r-desc" id="r-desc"></p>
+          <p class="r-frase" id="r-frase"></p>
+
+          <h3>O seu perfil</h3>
+          <p id="r-perfil"></p>
+          <h3>Principais características</h3>
+          <ul class="chips" id="r-caracteristicas"></ul>
+          <p class="r-efeito" id="r-efeito"></p>
+
+          <h3>Seu perfil por dimensão</h3>
+          <div id="r-eixos" class="eixos"></div>
+          <p class="fine">Um mesmo perfil pode ser garantista no processo e mais rigoroso na pena, ou o contrário: as dimensões não se confundem.</p>
+
+          <div class="disclaimer">
+            <strong>Sobre este quiz.</strong> É uma brincadeira recreativa de posicionamento jurídico, não uma avaliação científica, psicológica ou acadêmica. Não mede conhecimento jurídico nem diz quem está “certo”: várias das controvérsias propostas têm posições defensáveis em ambos os lados, inclusive na jurisprudência.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Quiz recreativo · não é uma classificação acadêmica definitiva</span>
+  </footer>
+
+  <script src="js/data/questions.js"></script>
+  <script src="js/data/results.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/card.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
