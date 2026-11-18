@@ -124,3 +124,8 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 900; line-height: 1.04; mar
 body[data-screen="result"] .screen-result { --c-accent: var(--ink); }
 
 @media (max-width: 560px) { .topbar-note { display: none; } }
+
+.save-panel { max-width: 480px; margin: 14px auto 0; padding: 14px; background: var(--paper-2); border-radius: 3px; text-align: center; }
+.save-panel[hidden] { display: none; }
+.save-msg { font-size: 14px; margin: 0 0 12px; }
+.save-img { width: 100%; height: auto; border-radius: 4px; -webkit-touch-callout: default; user-select: auto; }

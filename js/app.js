@@ -128,6 +128,7 @@
       row.querySelector('p').textContent = GQ.textoEixos[key][GQ.scoring.bandaEixo(m)];
       box.appendChild(row);
     }
+    const sp = document.getElementById('save-panel'); if (sp) sp.hidden = true;
     document.documentElement.dataset.resultado = c.id;
     setStatus('');
   }
@@ -156,6 +157,24 @@
     return `Fui classificado como ${r.categoria.nomeCurto}${r.categoria.sufixo ? ' ' + r.categoria.sufixo : ''} no quiz “O quão garantista você é?” (${r.mediaTexto}/4). Faça o teste e descubra seu perfil!${link ? ' ' + link : ''}`;
   }
 
+  // Fallback para ambientes que bloqueiam share/download (ex.: páginas embutidas):
+  // copia o texto e exibe a imagem para o usuário salvar manualmente.
+  async function painelManual(msg) {
+    let copiado = false;
+    try { await navigator.clipboard.writeText(textoCompartilhamento()); copiado = true; } catch (_) { /* ignora */ }
+    let box = document.getElementById('save-panel');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'save-panel'; box.className = 'save-panel';
+      box.innerHTML = '<p class="save-msg"></p><img alt="Cartão de resultado para salvar" class="save-img">';
+      el.status.insertAdjacentElement('afterend', box);
+    }
+    box.querySelector('.save-msg').textContent = (copiado ? 'Texto copiado. ' : '') + msg;
+    box.querySelector('.save-img').src = el.canvas.toDataURL('image/png');
+    box.hidden = false;
+    setStatus('');
+  }
+
   async function compartilhar() {
     if (!state.resultado) return;
     try {
@@ -173,21 +192,19 @@
         setStatus('Texto compartilhado. Use “Baixar imagem” para anexar o cartão.');
         return;
       }
-      // desktop sem Web Share: baixa a imagem e copia o texto
+      // desktop sem Web Share: baixa a imagem e mostra o painel manual
       baixar(blob);
-      let copiado = false;
-      try { await navigator.clipboard.writeText(text); copiado = true; } catch (_) { /* ignora */ }
-      setStatus(copiado ? 'Imagem baixada e texto copiado: é só colar no grupo.' : 'Imagem baixada. Anexe-a na conversa.');
+      await painelManual('Imagem baixada (se não baixou, salve a imagem abaixo: segure o dedo sobre ela ou clique com o botão direito). Cole o texto no grupo.');
     } catch (err) {
       if (err && err.name === 'AbortError') { setStatus(''); return; }
-      setStatus('Não foi possível compartilhar. Tente “Baixar imagem”.');
+      await painelManual('O compartilhamento automático não está disponível aqui. Salve a imagem abaixo (segure o dedo sobre ela ou clique com o botão direito) e cole o texto no grupo.');
     }
   }
 
   async function baixarImagem() {
     if (!state.resultado) return;
-    try { baixar(await canvasBlob()); setStatus('Imagem baixada.'); }
-    catch (_) { setStatus('Não foi possível gerar a imagem neste navegador.'); }
+    try { baixar(await canvasBlob()); await painelManual('Se o download não iniciou, salve a imagem abaixo: segure o dedo sobre ela ou clique com o botão direito.'); }
+    catch (_) { await painelManual('Salve a imagem abaixo: segure o dedo sobre ela ou clique com o botão direito.'); }
   }
 
   /* ---------- eventos ---------- */
